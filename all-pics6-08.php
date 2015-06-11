@@ -1,6 +1,6 @@
 <?php    
-	if(isset($_POST['submit'])){ //check if form was submitted
-		$input = $_POST['actualIn']; //get input text
+	if(isset($_POST['submit'])){
+		$input = $_POST['actualIn'];
 		$input = preg_replace('#<br\s*/?>#i', "\n", $input);
 		echo "Success!";
 		$myFile = "votes.txt";
@@ -16,7 +16,6 @@
 <head>
     <title>All Pics 6-08</title>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="https://raw.githubusercontent.com/carhartl/jquery-cookie/master/src/jquery.cookie.js"></script>
     <script>
     $.ajax({
         url: "6-08",
@@ -31,8 +30,6 @@
             });
         }
     });
-
-    
     </script>
     <style>
         .item{
@@ -48,23 +45,27 @@
         p{
         	display:none;
         }
-    
-    </style>
-    
-    
+        #thetext{
+            width:20%;
+        }
+        b{
+            padding:4px;
+            background-color:yellow;
+        }
+        #next{
+            font-weight:bold;
+        }
+    </style> 
 </head>
 <body>
     <button id="prev">prev</button>
-    <button id="next">next</button>
+    <b><button id="next">next</button></b>
 	<button id="like">like</button>
     <a href="http://nd.edu/~wbadart/iep"><button>home</button></a>
-	<div style="float:right; display:block;">
-		<p style="display:block;">Liked Photos</p>
-		<p style="display:block;" id="likeList">
-		
-		
-		
-		</p>	
+	<div style="float:right; display:block;" id="thetext">
+        <p style="display:block;">How to like:<br />As you browse, click the "like" button for photos you enjoy.  When you&#39;re done looking at all the photos in the set, click submit so your likes are saved.  Thanks for your input!<br /></p>
+		<p style="display:block;">Liked Photos:</p>
+		<p style="display:block;" id="likeList"></p>	
 	</div>
 	<form action="<?php echo $PHP_SELF;?>" method="post">
 		<input type="submit" class="button" name="submit" value="submit" />
@@ -76,6 +77,10 @@
 	
     <script>    
     $('#next').click(function(){
+        if ($(this).parent().is("b")){
+            $(this).unwrap();
+            $(this).css('font-weight', 'inherit');
+        }
         var current = $('.showing');
         if(current.next('.item').length == 0){
             var next = $('.item').first();    
@@ -105,12 +110,6 @@
 		$('#likeList').append(image);
 		document.getElementById('actualIn').value = $('#likeList').html();
     });
-    
-    </script>
-
-    
+    </script>   
 </body>
-
-
-
 </html>
